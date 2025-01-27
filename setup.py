@@ -4,7 +4,7 @@ Project Name: zyt_validation_utils
 File Created: 2025.01.22
 Author: ZhangYuetao
 File Name: setup.py
-Update: 2025.01.23
+Update: 2025.01.27
 """
 from setuptools import setup, find_packages
 
@@ -14,7 +14,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name="zyt_validation_utils",
-    version="0.2.1",
+    version="0.2.2",
     author="ZhangYuetao",
     author_email="zhang894171707@gmail.com",
     description="A utility package for various validation checks",  # 简短描述

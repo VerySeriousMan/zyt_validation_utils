@@ -126,16 +126,12 @@ def is_have(text, check):
 
     :param text: 输入的文本。
     :param check: 需要检查的字符、子字符串或判断函数。
-                 可以是单个字符、字符串、列表、集合或自定义函数。
+                 可以是单个字符、字符串、列表、集合或元组。
     :return: 如果包含给定的字符或子字符串返回 True，否则返回 False。
     """
-    if callable(check):
-        # 如果 check 是一个函数，调用该函数进行判断
-        result = any(check(char) for char in text)
-        return result
-    elif isinstance(check, (list, set)):
-        # 如果 check 是列表或集合，检查是否包含其中任意一个字符
-        result = any(char in check for char in text)
+    if isinstance(check, (list, set, tuple)):
+        # 如果 check 是列表、集合或元组，检查是否包含其中任意一个字符串
+        result = any(item in text for item in check)
         return result
     else:
         # 如果 check 是单个字符或子字符串，直接检查是否包含
