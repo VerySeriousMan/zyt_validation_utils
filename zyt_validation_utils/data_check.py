@@ -4,7 +4,7 @@ Project Name: zyt_validation_utils
 File Created: 2025.01.17
 Author: ZhangYuetao
 File Name: data_check.py
-Update: 2025.01.23
+Update: 2025.02.08
 """
 
 
@@ -79,17 +79,47 @@ def is_numeric(*datas):
     return result
 
 
-def is_designated_nums(num_type, *datas):
+def is_can_to_int(*datas):
+    """
+    检测所有数据是否都可以转换为整数
+
+    :param datas: 不定数量的待检测数据
+    :return: 如果所有数据都可以转换为整数，返回 True；否则返回 False
+    """
+    for data in datas:
+        try:
+            int(data)
+        except (ValueError, TypeError):
+            return False
+    return True
+
+
+def is_can_to_numeric(*datas):
+    """
+    检测所有数据是否都可以转换为数值（整数或浮点数）
+
+    :param datas: 不定数量的待检测数据
+    :return: 如果所有数据都可以转换为数值，返回 True；否则返回 False
+    """
+    for data in datas:
+        try:
+            float(data)
+        except (ValueError, TypeError):
+            return False
+    return True
+
+
+def is_designated_nums(num_type, *datas, must_int=False):
     """
     检测所有数据是否为指定类型数值。
 
-    :param num_type: 指定的类型（如 "odd", "even", "positive", "non_negative", "negative" 等）。
-                    如果类型中包含 "int"，则要求数据必须为整数。
+    :param num_type: 指定的类型（如 "odd", "even", "positive", "no_negative", "negative", "no_positive" 等）。
     :param datas: 输入的数据。
+    :param must_int: 必须为整数，默认为False
     :return: 如果所有数据都是指定类型数值返回 True，否则返回 False。
     """
-    # 如果 num_type 包含 "int"，则检查数据是否为整数
-    if 'int' in num_type:
+    # 如果 must_int为True，则检查数据是否为整数
+    if must_int:
         if not is_type(int, *datas):
             return False
     else:
@@ -108,18 +138,20 @@ def is_designated_nums(num_type, *datas):
         result = all(data >= 0 for data in datas)
     elif 'negative' in num_type:
         result = all(data < 0 for data in datas)
+    elif 'no_positive' in num_type:
+        result = all(data <= 0 for data in datas)
     else:
         raise ValueError(f"不支持的指定类型: {num_type}")
     return result
 
 
-def is_nums_in_range(range_str, must_int=False, *datas):
+def is_nums_in_range(range_str, *datas, must_int=False):
     """
     检测所有数据是否在指定范围内。
 
     :param range_str: 数据范围字符串，格式为 "(a, b)", "[a, b]", "(a, ]", "[a, )", "(, b)", "[, b]" 等。
-    :param must_int: 必须为整数，默认为False
     :param datas: 输入的数据。
+    :param must_int: 必须为整数，默认为False
     :return: 如果所有数据都在指定范围内返回 True，否则返回 False。
     """
     # 如果 must_int为True，则检查数据是否为整数
@@ -199,4 +231,3 @@ def is_valid_key(dictionary, *datas):
     """
     result = all(data in dictionary for data in datas)
     return result
-

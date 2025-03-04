@@ -7,7 +7,7 @@ Project Name: zyt_validation_utils
 File Created: 2025.01.22
 Author: ZhangYuetao
 File Name: __init__.py
-Update: 2025.01.24
+Update: 2025.03.03
 """
 
 # 导入 data_check 模块中的函数
@@ -16,6 +16,8 @@ from .data_check import (
     is_all_unique,
     is_empty,
     is_numeric,
+    is_can_to_int,
+    is_can_to_numeric,
     is_designated_nums,
     is_nums_in_range,
     is_valid_key,
@@ -41,6 +43,10 @@ from .file_check import (
     is_bin,
     is_current_file_frozen,
     is_file_load_complete,
+    is_rgb_image,
+    is_gray_image,
+    is_depth_image,
+    is_rgb_video,
 )
 
 # 导入 text_check 模块中的函数
@@ -73,6 +79,7 @@ from .text_check import (
     is_Chinese_postal_code,
 )
 
+
 # 定义包的公共接口
 __all__ = [
 
@@ -81,6 +88,8 @@ __all__ = [
     'is_all_unique',
     'is_empty',
     'is_numeric',
+    'is_can_to_int',
+    'is_can_to_numeric',
     'is_designated_nums',
     'is_nums_in_range',
     'is_valid_key',
@@ -102,6 +111,10 @@ __all__ = [
     'is_bin',
     'is_current_file_frozen',
     'is_file_load_complete',
+    'is_rgb_image',
+    'is_gray_image',
+    'is_depth_image',
+    'is_rgb_video',
 
     # text_check
     'is_have_chinese',

@@ -4,7 +4,7 @@ Project Name: zyt_validation_utils
 File Created: 2025.01.17
 Author: ZhangYuetao
 File Name: file_check.py
-Update: 2025.01.27
+Update: 2025.03.03
 """
 
 import os
@@ -13,7 +13,7 @@ import time
 from PIL import Image, UnidentifiedImageError
 import filetype
 
-import config
+import zyt_validation_utils.config as config
 
 
 def is_file(path, raise_error=True):
@@ -281,3 +281,131 @@ def is_file_load_complete(file_path, timeout=60, raise_error=True):
 
     # 超过最大等待时间后认为文件未复制完成
     return False
+
+
+def is_rgb_image(file_path, image_check_speed="normal", raise_error=True):
+    """
+    判断输入图像是否为彩色图
+
+    :param file_path: 文件路径
+    :param image_check_speed: 检测模式，继承自 is_image 的 'fast' 或 'normal'（默认）
+    :param raise_error: 是否抛出异常（默认 True）
+    :return: True 如果是彩色图像，否则 False
+    """
+    if raise_error:
+        try:
+            if not is_image(file_path, image_check_speed, raise_error=True):
+                raise ValueError(f'{file_path}不是图像')
+        except ValueError:
+            raise
+    else:
+        if not is_image(file_path, image_check_speed, raise_error=False):
+            return False
+
+    try:
+        with Image.open(file_path) as img:
+            if img.mode in config.PIL_RGB_LIST:
+                return True
+            else:
+                return False
+    except Exception as e:
+        if raise_error:
+            raise f"图像类型判断失败，错误原因:{e}"
+        else:
+            return False
+
+
+def is_gray_image(file_path, image_check_speed="normal", raise_error=True):
+    """
+    判断输入图像是否为灰度图
+
+    :param file_path: 文件路径
+    :param image_check_speed: 检测模式，继承自 is_image 的 'fast' 或 'normal'（默认）
+    :param raise_error: 是否抛出异常（默认 True）
+    :return: True 如果是灰度图像，否则 False
+    """
+    if raise_error:
+        try:
+            if not is_image(file_path, image_check_speed, raise_error=True):
+                raise ValueError(f'{file_path}不是图像')
+        except ValueError:
+            raise
+    else:
+        if not is_image(file_path, image_check_speed, raise_error=False):
+            return False
+
+    try:
+        with Image.open(file_path) as img:
+            if img.mode in config.PIL_GRAY_LIST:
+                return True
+            else:
+                return False
+    except Exception as e:
+        if raise_error:
+            raise f"图像类型判断失败，错误原因:{e}"
+        else:
+            return False
+
+
+def is_depth_image(file_path, image_check_speed="normal", raise_error=True):
+    """
+    判断输入图像是否为深度图
+
+    :param file_path: 文件路径
+    :param image_check_speed: 检测模式，继承自 is_image 的 'fast' 或 'normal'（默认）
+    :param raise_error: 是否抛出异常（默认 True）
+    :return: True 如果是深度图像，否则 False
+    """
+    if raise_error:
+        try:
+            if not is_image(file_path, image_check_speed, raise_error=True):
+                raise ValueError(f'{file_path}不是图像')
+        except ValueError:
+            raise
+    else:
+        if not is_image(file_path, image_check_speed, raise_error=False):
+            return False
+
+    try:
+        with Image.open(file_path) as img:
+            if img.mode in config.PIL_DEPTH_LIST:
+                return True
+            else:
+                return False
+    except Exception as e:
+        if raise_error:
+            raise f"图像类型判断失败，错误原因:{e}"
+        else:
+            return False
+
+
+def is_rgb_video(file_path, video_check_speed="normal", raise_error=True):
+    """
+    判断输入图像是否为彩色图视频
+
+    :param file_path: 文件路径
+    :param video_check_speed: 检测模式，继承自 is_video 的 'fast' 或 'normal'（默认）
+    :param raise_error: 是否抛出异常（默认 True）
+    :return: True 如果是彩色图像，否则 False
+    """
+    if raise_error:
+        try:
+            if not is_video(file_path, video_check_speed, raise_error=True):
+                raise ValueError(f'{file_path}不是视频')
+        except ValueError:
+            raise
+    else:
+        if not is_video(file_path, video_check_speed, raise_error=False):
+            return False
+
+    try:
+        with Image.open(file_path) as img:
+            if img.mode in config.PIL_RGB_LIST:
+                return True
+            else:
+                return False
+    except Exception as e:
+        if raise_error:
+            raise f"视频类型判断失败，错误原因:{e}"
+        else:
+            return False

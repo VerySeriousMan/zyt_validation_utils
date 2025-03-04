@@ -15,6 +15,7 @@
 - 检查列表或元组中的元素是否唯一。
 - 检查输入的全部元素是否都为空。
 - 检查输入的全部元素是否都为数值类型。
+- 检查输入的全部元素是否都为可转为整数或数值类型。
 - 检查输入的全部元素是否都为为指定类型数值（如奇数、正整数等）。
 - 检查输入的全部元素是否在指定范围内。
 - 检查输入的全部元素是否为字典的有效键。
@@ -30,6 +31,7 @@
 - 检查文件类型（如音频、视频、图片、压缩文件、bin文件、打包后的软件等）。
 - 检查图片文件是否完整。
 - 检查文件是否加载完整。
+- 检查图片是否为指定类型图像（彩色图、灰度图或深度图）。
 
 ### 文本验证：
 - 检查文本是否全为中文、英文、数字或特殊字符。
@@ -117,20 +119,43 @@ pip install zyt-validation-utils
 
 ---
 
-#### **`is_designated_nums(num_type, *datas)`**
+#### **`is_can_to_int(*datas)`**
+**功能**: 检测所有数据是否都可以转换为整数。
+
+**参数**:
+- `*datas`: 不定数量的待检测数据。
+
+**返回**:
+- `bool`: 如果所有数据都可以转换为整数，返回 `True`；否则返回 `False`。
+
+---
+
+#### **`is_can_to_numeric(*datas)`**
+**功能**: 检测所有数据是否都可以转换为数值（整数或浮点数）。
+
+**参数**:
+- `*datas`: 不定数量的待检测数据。
+
+**返回**:
+- `bool`: 如果所有数据都可以转换为数值，返回 `True`；否则返回 `False`。
+
+---
+
+#### **`is_designated_nums(num_type, *datas, must_int=False)`**
 **功能**: 验证所有数据是否为指定的数字类型。
 
 **支持的指定类型**:
 - `"odd"`: 奇数
 - `"even"`: 偶数
 - `"positive"`: 正数
-- `"non_negative"`: 非负数
+- `"no_negative"`: 非负数
 - `"negative"`: 负数
-- `"int"`: 整数（可与其他类型组合使用）
+- `"no_positive"`: 非正数
 
 **参数**:
 - `num_type` (str): 指定的数字类型。
 - `*datas`: 不定数量的待检测数据。
+- `must_int` (bool, 可选): 是否必须为整数。默认为 `False`。
 
 **返回**:
 - `bool`: 如果所有数据都符合指定类型，返回 `True`；否则返回 `False`。
@@ -140,13 +165,13 @@ pip install zyt-validation-utils
 
 ---
 
-#### **`is_nums_in_range(range_str, must_int=False, *datas)`**
+#### **`is_nums_in_range(range_str, *datas, must_int=False)`**
 **功能**: 确保所有数字都在指定范围内。
 
 **参数**:
 - `range_str` (str): 数据范围字符串，格式为 `(a, b)`、`[a, b]`、`(a, ]`、`[a, )`、`(, b)`、`[, b]` 等。
-- `must_int` (bool, 可选): 是否必须为整数。默认为 `False`。
 - `*datas`: 不定数量的待检测数据。
+- `must_int` (bool, 可选): 是否必须为整数。默认为 `False`。
 
 **返回**:
 - `bool`: 如果所有数据都在指定范围内，返回 `True`；否则返回 `False`。
@@ -194,7 +219,7 @@ if is_designated_nums("positive", 1, 2, 3):
     print("所有数据都是正数")
 
 # 检查数据是否在指定范围内
-if is_nums_in_range("[1, 10]", False, 2, 3, 4):
+if is_nums_in_range("[1, 10]", 2, 3, 4, must_int=True):
     print("所有数据都在范围内")
 
 # 检查数据是否为字典的有效键
@@ -284,7 +309,8 @@ if is_have_non_subdirectory_files("/path/to/directory"):
 
 ---
 
-## 文件验证模块 `file_check`
+### 文件验证 
+####`file_check`
 
 该模块提供了一系列用于验证文件类型、完整性及其他属性的函数。以下是各函数的详细说明：
 
@@ -446,6 +472,54 @@ if is_have_non_subdirectory_files("/path/to/directory"):
 
 **异常**:
 - `ValueError`: 如果文件不存在或不是文件且 `raise_error` 为 `True`。
+
+---
+
+### **`is_rgb_image(file_path, image_check_speed="normal", raise_error=True)`**
+**功能**: 判断输入图像是否为彩色图像。
+
+**参数**:
+- `file_path` (str): 文件路径。
+- `image_check_speed` 检测模式，继承自 is_image 的 `fast` 或 `normal`（默认）。
+- `raise_error` (bool, 可选): 如果为 `True`，当输入不是图像或判断失败时抛出异常；如果为 `False`，则返回 `False`。默认为 `True`。
+
+**返回**:
+- `bool`: 如果文件是彩色图像，返回 `True`；否则返回 `False`。
+
+**异常**:
+- `ValueError`: 如果输入不是图像或判断失败且 `raise_error` 为 `True`。
+
+---
+
+### **`is_gray_image(file_path, image_check_speed="normal", raise_error=True)`**
+**功能**: 判断输入图像是否为灰度图像。
+
+**参数**:
+- `file_path` (str): 文件路径。
+- `image_check_speed` 检测模式，继承自 is_image 的 `fast` 或 `normal`（默认）。
+- `raise_error` (bool, 可选): 如果为 `True`，当输入不是图像或判断失败时抛出异常；如果为 `False`，则返回 `False`。默认为 `True`。
+
+**返回**:
+- `bool`: 如果文件是灰度图像，返回 `True`；否则返回 `False`。
+
+**异常**:
+- `ValueError`: 如果输入不是图像或判断失败且 `raise_error` 为 `True`。
+
+---
+
+### **`is_depth_image(file_path, image_check_speed="normal", raise_error=True)`**
+**功能**: 判断输入图像是否为深度图像。
+
+**参数**:
+- `file_path` (str): 文件路径。
+- `image_check_speed` 检测模式，继承自 is_image 的 `fast` 或 `normal`（默认）。
+- `raise_error` (bool, 可选): 如果为 `True`，当输入不是图像或判断失败时抛出异常；如果为 `False`，则返回 `False`。默认为 `True`。
+
+**返回**:
+- `bool`: 如果文件是深度图像，返回 `True`；否则返回 `False`。
+
+**异常**:
+- `ValueError`: 如果输入不是图像或判断失败且 `raise_error` 为 `True`。
 
 ---
 

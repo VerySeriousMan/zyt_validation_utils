@@ -4,7 +4,7 @@ Project Name: zyt_validation_utils
 File Created: 2025.01.21
 Author: ZhangYuetao
 File Name: config.py
-Update: 2025.01.22
+Update: 2025.03.03
 """
 
 
@@ -200,3 +200,9 @@ ARCHIVE_MAP = {
     '.002',     # Split Archive Part 2
     '.003',     # Split Archive Part 3
 }
+
+PIL_RGB_LIST = ['RGB', 'RGBA', 'P', 'CMYK', 'YCbCr', 'LAB', 'HSV', 'RGBa', 'PA', 'RGBX', 'BGR;15', 'BGR;16', 'BGR;24']
+
+PIL_GRAY_LIST = ['1', 'L', 'La', 'LA']
+
+PIL_DEPTH_LIST = ['I', 'F', 'I;16', 'I;16L', 'I;16B', 'I;16N']
