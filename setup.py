@@ -4,7 +4,7 @@ Project Name: zyt_validation_utils
 File Created: 2025.01.22
 Author: ZhangYuetao
 File Name: setup.py
-Update: 2025.03.03
+Update: 2025.07.14
 """
 from setuptools import setup, find_packages
 
@@ -20,7 +20,7 @@ setup(
     description="A utility package for various validation checks",  # 简短描述
     long_description=long_description,  # 长描述，通常从 README.md 读取
     long_description_content_type="text/markdown",  # 长描述的内容类型
-    url="https://github.com/yourusername",  # 项目主页
+    url="https://github.com/VerySeriousMan/zyt_validation_utils",  # 项目主页
     packages=find_packages(),  # 自动查找包
     classifiers=[  # 分类器，用于 PyPI 上的分类
         "Programming Language :: Python :: 3",
